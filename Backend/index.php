@@ -18,7 +18,14 @@ $apis = [
   '/register' => ['controller' => 'UserController', 'method' => 'registerUser'],
   '/login'    => ['controller' => 'UserController', 'method' => 'loginUser'],
   '/updateUser' => ['controller' => 'UserController', 'method' => 'updateUser'],
-  '/deleteUser' => ['controller' => 'UserController', 'method' => 'deleteUser']
+  '/deleteUser' => ['controller' => 'UserController', 'method' => 'deleteUser'],
+  '/images' => ['controller' => 'ImageController', 'method' => 'loadImages'],
+  '/addImage' => ['controller' => 'ImageController', 'method' => 'uploadImage'],
+  '/getAllUserImages' => ['controller' => 'ImageController', 'method' => 'getImagesForUser'],
+  '/updateImage' => ['controller' => 'ImageController', 'method' => 'updateImage'],
+  '/deleteImage' => ['controller' => 'ImageController', 'method' => 'deleteImage'],
+
+
 ];
 
 if (isset($apis[$request])) {
