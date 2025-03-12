@@ -15,8 +15,10 @@ if ($request == '') {
 
 $apis = [
   '/users'    => ['controller' => 'UserController', 'method' => 'loadUsers'],
-  '/register'    => ['controller' => 'UserController', 'method' => 'registerUser']
-
+  '/register' => ['controller' => 'UserController', 'method' => 'registerUser'],
+  '/login'    => ['controller' => 'UserController', 'method' => 'loginUser'],
+  '/updateUser' => ['controller' => 'UserController', 'method' => 'updateUser'],
+  '/deleteUser' => ['controller' => 'UserController', 'method' => 'deleteUser']
 ];
 
 if (isset($apis[$request])) {
