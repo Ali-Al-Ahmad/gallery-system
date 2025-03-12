@@ -40,5 +40,5 @@ if (isset($apis[$request])) {
     die("Error: Method {$method} not found in {$controllerName}.");
   }
 } else {
-  die("404 Not Found index.php");
+  die("404 Not Found");
 }
