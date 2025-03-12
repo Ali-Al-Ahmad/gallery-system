@@ -12,4 +12,4 @@ class UserSkeleton
     self::$password = $password;
     self::$full_name = $full_name;
   }
-};
+}
