@@ -22,9 +22,9 @@ class Image extends ImageSkeleton
       file_put_contents($image_path, base64_decode($image_data));
 
 
-      $query = $conn->prepare("INSERT INTO images (user_id, title, image_data, image_path, description) VALUES (?, ?, ?, ?, ?)");
+      $query = $conn->prepare("INSERT INTO images (user_id, title, image_path, description) VALUES (?, ?, ?, ?)");
 
-      $query->bind_param("issss", self::$user_id, self::$title, self::$image_data, $image_path, self::$description);
+      $query->bind_param("isss", self::$user_id, self::$title, $image_name, self::$description);
 
       if (!$query->execute()) {
 
@@ -103,6 +103,8 @@ class Image extends ImageSkeleton
 
     $images = [];
     while ($image = $result->fetch_assoc()) {
+      $imageTags = Tag::getTagsForImage($image['id']);
+      $image['tags'] = $imageTags;
       $images[] = $image;
     }
 
@@ -135,8 +137,8 @@ class Image extends ImageSkeleton
       $image_name = uniqid() . ".png";
       $image_path = 'C:/xampp/htdocs/gallery-system/Backend/uploads/' . $image_name;
       file_put_contents($image_path, base64_decode($image_data));
-      $update_query = $conn->prepare("UPDATE images SET title = ?, description = ?, image_data = ?,image_path WHERE id = ?");
-      $update_query->bind_param("sssi", $title, $description, $image_data, $image_id, $image_path);
+      $update_query = $conn->prepare("UPDATE images SET title = ?, description = ?, image_path WHERE id = ?");
+      $update_query->bind_param("sssi", $title, $description, $image_name, $image_id);
       $update_query->execute();
     }
 

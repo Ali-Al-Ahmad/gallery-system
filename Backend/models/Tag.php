@@ -1,8 +1,10 @@
 <?php
 
 require_once __DIR__ . '/../connection/connection.php';
+require_once  "TagSkeleton.php";
+require_once __DIR__ . '/../utils/utils.php';
 
-class Tag
+class Tag extends TagSkeleton
 {
   //SAVE tag by name
   public static function save($name)
@@ -45,11 +47,18 @@ class Tag
   }
 
   //GET all tags
-  public static function getAllTags()
+  public static function getAllTagsForUser($user_id)
   {
     global $conn;
 
-    $query = $conn->prepare("SELECT id, name FROM tags");
+    $query = $conn->prepare("SELECT distinct t.id, t.name 
+        FROM tags t
+        INNER JOIN image_tags it ON t.id = it.tag_id
+        INNER JOIN images i ON it.image_id = i.id
+        WHERE i.user_id = ?
+    ");
+
+    $query->bind_param("i", $user_id);
     $query->execute();
     $result = $query->get_result();
 
