@@ -1,0 +1,41 @@
+.header {
+  margin: 0 auto;
+  display: flex;
+  height: 70px;
+  background: white;
+  border-bottom: 1px solid #e8e8e8;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+nav {
+  display: flex;
+  width: 96%;
+  justify-content: space-between;
+}
+.header img {
+  width: 104px;
+  height: 24px;
+}
+
+.nav-items {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  font-weight: 2em;
+  text-decoration: none;
+  font-size: 1.1em;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  background-color: black;
+  border-radius: 15px;
+  padding: 5px 20px;
+}
+
+.nav-link:hover {
+  background-color: var(--darker-pink);
+}
