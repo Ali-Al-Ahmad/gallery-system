@@ -28,7 +28,7 @@ class UserController
     if (!$user_id) {
       die(responseError("Email already exist user"));
     }
-    echo responseSuccess("Registered successfully", ["user_id" => $user_id]);
+    echo responseSuccess("Registered successfully", ["user_id" => $user_id, "full_name" => $full_name]);
     exit();
   }
 

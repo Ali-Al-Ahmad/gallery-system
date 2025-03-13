@@ -24,6 +24,7 @@ $apis = [
   '/getAllUserImages' => ['controller' => 'ImageController', 'method' => 'getImagesForUser'],
   '/updateImage' => ['controller' => 'ImageController', 'method' => 'updateImage'],
   '/deleteImage' => ['controller' => 'ImageController', 'method' => 'deleteImage'],
+  '/usertags' => ['controller' => 'TagController', 'method' => 'loadTags'],
 
 
 ];
