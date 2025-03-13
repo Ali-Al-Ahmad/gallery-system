@@ -16,6 +16,7 @@ const Navbar = () => {
           />
         </Link>
         <div className='nav-items'>
+          {/* if User Not LoggedIn show register/login */}
           {!localStorage.getItem('user_id') && (
             <Link
               to={currentPath === '/register' ? '/' : 'register'}
@@ -24,6 +25,19 @@ const Navbar = () => {
               <p>{currentPath === '/register' ? 'Login' : 'Signup'}</p>
             </Link>
           )}
+
+          {/* if User LoggedIn show Home/Upload */}
+          {localStorage.getItem('user_id') && (
+            <Link
+              to={currentPath === '/home' ? '/upload' : 'home'}
+              className='nav-link'
+            >
+              <p>{currentPath === '/home' ? 'Upload' : 'Home'}</p>
+            </Link>
+          )}
+
+          {/*show Logout only if loggedin */}
+
           {localStorage.getItem('user_id') && (
             <Link
               onClick={() => localStorage.removeItem('user_id')}
