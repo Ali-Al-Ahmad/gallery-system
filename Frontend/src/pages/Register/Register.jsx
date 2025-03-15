@@ -70,8 +70,8 @@ const Register = () => {
           required
         />
         <button type='submit'>Signup</button>
-        <p>
-          You have an account? <Link to='/'>login</Link>
+        <p className='form-text'>
+          You have an account? <Link to='/'>Login</Link>
         </p>
       </form>
     </div>

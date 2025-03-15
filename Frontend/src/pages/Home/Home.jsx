@@ -1,41 +1,61 @@
 import './Home.css'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../api/axiosInstance'
+import Card from '../../components/Card/Card'
+import { toast } from 'react-toastify'
+import EditForm from '../../components/EditForm/EditForm'
 
 const Home = () => {
   const userId = localStorage.getItem('user_id')
-  const [user_images, setUserImages] = useState([])
-  const [filtered_user_images, setFilteredFunctions] = useState([])
-
-  const navigate = useNavigate()
-  useEffect(() => {
-    if (!userId) {
-      navigate('/')
-    }
-  }, [navigate])
+  const [images, setImages] = useState([])
+  const [filtered_images, setFilteredImages] = useState([])
+  const [editImage, setEditImage] = useState(null)
 
   useEffect(() => {
     getUserImages()
-  }, [])
+  }, [editImage])
+
+  useEffect(() => {}, [editImage])
+
+  useEffect(() => {
+    setFilteredImages(images)
+  }, [images])
 
   const getUserImages = async () => {
     const response = await axiosInstance.get(
       `/getAllUserImages?user_id=${userId}`
     )
-    setUserImages(response.data.data.images)
-    setFilteredFunctions(response.data.data.images)
-    console.log(response.data.data.images)
+    setImages(response.data.data.images)
   }
 
   const handleSearch = (value) => {
-    const filteredImages = user_images.filter(
+    const filteredImages = images.filter(
       (image) =>
         image.title.toLowerCase().includes(value.toLowerCase()) ||
         image.description.toLowerCase().includes(value.toLowerCase()) ||
         image.tags.filter((tag) => tag.toLowerCase().includes(value)).length > 0
     )
-    setFilteredFunctions(filteredImages)
+    setFilteredImages(filteredImages)
+  }
+
+  const handleDelteImage = async (image_id) => {
+    const confirmed = confirm('Are you sure you want to delete?')
+
+    try {
+      if (confirmed) {
+        const response = await axiosInstance.delete(
+          `/deleteImage?image_id=${image_id}`
+        )
+        if (response.data.success) {
+          toast.success('Image Delete Successully')
+          setImages((all) => all.filter((img) => img.id !== image_id))
+          return
+        }
+        toast.error('error deleting')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -48,32 +68,53 @@ const Home = () => {
           placeholder='Search images...'
           onChange={(e) => handleSearch(e.target.value)}
         />
-        <div className='all_images'>
-          {filtered_user_images.length > 0 ? (
-            filtered_user_images.map((image) => (
+        <div className='all-images'>
+          {filtered_images.length > 0 ? (
+            filtered_images.map((image) => (
               <div
                 key={image.id}
-                className='image-card'
+                className='card'
               >
-                <img
-                  src={`http://localhost:8080/gallery-system/Backend/uploads/${image.image_path}`}
-                  alt={image.title}
-                  className='image-preview'
+                <Card
+                  id={image.id}
+                  title={image.title}
+                  description={image.description}
+                  image_path={image.image_path}
+                  tags={image.tags}
                 />
-                <div className='image-details'>
-                  <h3>{image.title}</h3>
-                  <p>{image.description}</p>
-                  <div className='tags'>
-                    {image.tags &&
-                      image.tags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className='tag'
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                  </div>
+
+                {/* edit and delete buttons */}
+                <img
+                  src='../../../public/trash-solid.svg'
+                  className='delete-button'
+                  onClick={() => handleDelteImage(image.id)}
+                />
+                <div className='edit-container-with-button'>
+                  <img
+                    src='../../../public/edit.svg'
+                    className='edit-button'
+                    onClick={() =>
+                      setEditImage({
+                        id: image.id,
+                        title: image.title,
+                        description: image.description,
+                        image_path: image.image_path,
+                        tags: image.tags.join(','),
+                      })
+                    }
+                  />
+
+                  {/* onclick edit-form popup */}
+                  {editImage?.id && editImage.id == image.id && (
+                    <EditForm
+                      image_id={editImage?.id}
+                      title={editImage?.title}
+                      description={editImage?.description}
+                      image_path={editImage?.image_path}
+                      tags={editImage?.tags}
+                      setEditImage={setEditImage}
+                    />
+                  )}
                 </div>
               </div>
             ))

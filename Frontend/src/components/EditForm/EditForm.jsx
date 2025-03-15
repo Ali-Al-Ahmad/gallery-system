@@ -1,19 +1,35 @@
-import './UploadImage.css'
-import { useState } from 'react'
+import './EditForm.css'
+import { useEffect, useState } from 'react'
 import axiosInstance from '../../api/axiosInstance'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { image_folder_path } from '../../utils/shared'
 import { convertToBase64 } from '../../utils/shared'
 
-const UploadImage = () => {
+const EditForm = ({
+  image_id,
+  title,
+  description,
+  tags,
+  image_path,
+  setEditImage,
+}) => {
   const userId = localStorage.getItem('user_id')
+  const [preview, setPreview] = useState(null)
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    tags: '',
+    title: title,
+    description: description,
+    tags: tags,
     image: null,
   })
-  const [preview, setPreview] = useState(null)
+
+  useEffect(() => {
+    setFormData({
+      title: title,
+      description: description,
+      tags: tags,
+    })
+  }, [title])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -31,26 +47,35 @@ const UploadImage = () => {
   const handleUpload = async (e) => {
     e.preventDefault()
 
-    try {
-      const response = await axiosInstance.post('/addImage', {
+    const confirmed = confirm('Are you sure you want to update?')
+    if (confirmed) {
+      const updatedImage = {
         user_id: userId,
+        image_id,
         title: formData.title,
         description: formData.description,
         tags: formData.tags.split(',').map((tag) => tag.trim()),
-        image_data: formData.image,
-      })
-      console.log(response.data)
+        image_data: null,
+      }
+      if (preview) {
+        updatedImage.image_data = formData.image
+      }
+      try {
+        const response = await axiosInstance.post('/updateImage', updatedImage)
+        console.log(response.data)
 
-      toast.success('Image uploaded successfuly')
-      setFormData({ title: '', description: '', tags: '', image: null })
-      setPreview(null)
-    } catch (error) {
-      console.error('Upload Error:', error)
+        toast.success('Image Updated successfuly')
+        setFormData({ title: '', description: '', tags: '', image: null })
+        setPreview(null)
+        setEditImage(null)
+      } catch (error) {
+        console.error('Upload Error:', error)
+      }
     }
   }
 
   return (
-    <div className='upload-container'>
+    <div className='edit-container'>
       <form onSubmit={handleUpload}>
         <input
           type='text'
@@ -79,7 +104,6 @@ const UploadImage = () => {
           type='file'
           accept='image/*'
           onChange={handleImageChange}
-          required
         />
         {preview && (
           <img
@@ -87,10 +111,27 @@ const UploadImage = () => {
             alt='Preview'
           />
         )}
-        <button type='submit'>Upload Image</button>
+        {image_path && !preview && (
+          <img
+            src={image_folder_path + image_path}
+            alt='Preview'
+          />
+        )}
+        <button
+          type='submit'
+          className='submit'
+        >
+          Edit Image
+        </button>
+        <button
+          className='cancel'
+          onClick={() => setEditImage(null)}
+        >
+          Cancel
+        </button>
       </form>
     </div>
   )
 }
 
-export default UploadImage
+export default EditForm
