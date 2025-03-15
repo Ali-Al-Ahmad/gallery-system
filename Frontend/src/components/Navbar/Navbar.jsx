@@ -44,7 +44,7 @@ const Navbar = () => {
               to='/'
               className='nav-link'
             >
-              <p>Logut</p>
+              <p>Logout</p>
             </Link>
           )}
         </div>
