@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const ProtectedRoutes = () => {
@@ -25,7 +25,6 @@ const ProtectedRoutes = () => {
       localStorage.clear()
     } else {
       validateToken(token)
-      console.log('Token is valid')
     }
   }, [])
 
