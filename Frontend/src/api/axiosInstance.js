@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/gallery-system/Backend',
+  baseURL: 'http://52.47.202.106/server/',
   headers: {
     'Content-Type': 'application/json',
   },
