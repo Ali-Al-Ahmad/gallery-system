@@ -18,7 +18,7 @@ class Image extends ImageSkeleton
         $image_data = explode('base64,', $image_data)[1];
       }
       $image_name = uniqid() . ".png";
-      $image_path = '/server/uploads/' . $image_name;
+      $image_path = '/var/www/html/gallery-system/Backend/uploads/' . $image_name;
       file_put_contents($image_path, base64_decode($image_data));
 
 
@@ -137,7 +137,7 @@ class Image extends ImageSkeleton
         $image_data = explode('base64,', $image_data)[1];
       }
       $image_name = uniqid() . ".png";
-      $image_path = '/server/uploads/' . $image_name;
+      $image_path = '/var/www/html/gallery-system/Backend/uploads/' . $image_name;
       file_put_contents($image_path, base64_decode($image_data));
       $update_query = $conn->prepare("UPDATE images SET title = ?, description = ?, image_path = ? WHERE id = ?");
       $update_query->bind_param("sssi", $title, $description, $image_name, $image_id);
