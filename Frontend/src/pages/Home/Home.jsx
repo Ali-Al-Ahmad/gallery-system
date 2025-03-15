@@ -1,19 +1,11 @@
 import './Home.css'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../api/axiosInstance'
 
 const Home = () => {
   const userId = localStorage.getItem('user_id')
   const [user_images, setUserImages] = useState([])
   const [filtered_user_images, setFilteredFunctions] = useState([])
-
-  const navigate = useNavigate()
-  useEffect(() => {
-    if (!userId) {
-      navigate('/')
-    }
-  }, [navigate])
 
   useEffect(() => {
     getUserImages()

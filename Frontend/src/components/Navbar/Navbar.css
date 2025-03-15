@@ -17,7 +17,7 @@ nav {
 }
 .header img {
   width: 104px;
-  height: 24px;
+  padding-top: 5px;
 }
 
 .nav-items {
@@ -38,4 +38,14 @@ nav {
 
 .nav-link:hover {
   background-color: var(--darker-pink);
+}
+
+@media only screen and (max-width: 500px) {
+  .header{padding: 12px 18px;}
+nav {
+  width: 100%;
+}
+.nav-link {
+  padding: 5px 12px;
+}
 }
