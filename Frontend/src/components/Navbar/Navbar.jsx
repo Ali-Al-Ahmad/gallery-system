@@ -11,7 +11,7 @@ const Navbar = () => {
       <nav>
         <Link to='/home'>
           <img
-            src='../../../src/assets/logo.svg'
+            src='/logo.svg'
             alt='logo.svg'
           />
         </Link>
