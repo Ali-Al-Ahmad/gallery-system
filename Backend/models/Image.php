@@ -127,9 +127,11 @@ class Image extends ImageSkeleton
 
     $image = $result->fetch_assoc();
 
-    if ($image['user_id'] !== $user_id) {
+    if ($image['user_id'] != $user_id) {
+
       return false;
     }
+
     if ($image_data !== null) {
       if (strpos($image_data, 'base64,') !== false) {
         $image_data = explode('base64,', $image_data)[1];
@@ -137,7 +139,7 @@ class Image extends ImageSkeleton
       $image_name = uniqid() . ".png";
       $image_path = 'C:/xampp/htdocs/gallery-system/Backend/uploads/' . $image_name;
       file_put_contents($image_path, base64_decode($image_data));
-      $update_query = $conn->prepare("UPDATE images SET title = ?, description = ?, image_path WHERE id = ?");
+      $update_query = $conn->prepare("UPDATE images SET title = ?, description = ?, image_path = ? WHERE id = ?");
       $update_query->bind_param("sssi", $title, $description, $image_name, $image_id);
       $update_query->execute();
     }
