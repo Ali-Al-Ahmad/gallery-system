@@ -85,13 +85,13 @@ const Home = () => {
 
                 {/* edit and delete buttons */}
                 <img
-                  src='../../../public/trash-solid.svg'
+                  src='/trash-solid.svg'
                   className='delete-button'
                   onClick={() => handleDelteImage(image.id)}
                 />
                 <div className='edit-container-with-button'>
                   <img
-                    src='../../../public/edit.svg'
+                    src='/edit.svg'
                     className='edit-button'
                     onClick={() =>
                       setEditImage({
