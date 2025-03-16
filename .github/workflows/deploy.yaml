@@ -20,9 +20,14 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd /var/www/html/gallery-system/Frontend
-            sudo echo "Entered" > enter.txt
+            git config --global credential.helper store
+            git config --global user.name "Ali-Al-Ahmad"
+            git config --global user.email "ali.alahmad.cs@gmail.com"
+            echo "https://${{ secrets.TOKEN }}@github.com" | sudo tee ~/.git-credentials > /dev/null
+            sudo chmod 600 ~/.git-credentials
+            echo "Entered" | sudo tee enter.txt > /dev/null
             sudo git pull origin main
-            sudo echo "pulled" >> enter.txt
+            echo "Pulled" | sudo tee -a enter.txt > /dev/null
             sudo npm install
             sudo npm run build
             sudo systemctl restart apache2
