@@ -20,9 +20,9 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd /var/www/html/gallery-system/Frontend
-            echo "Entered" > enter.txt
+            sudo echo "Entered" > enter.txt
             sudo git pull origin main
-            echo "pulled" >> enter.txt
+            sudo echo "pulled" >> enter.txt
             sudo npm install
             sudo npm run build
             sudo systemctl restart apache2
