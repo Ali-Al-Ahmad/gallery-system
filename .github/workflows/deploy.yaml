@@ -25,9 +25,7 @@ jobs:
             git config --global user.email "ali.alahmad.cs@gmail.com"
             echo "https://${{ secrets.TOKEN }}@github.com" | sudo tee ~/.git-credentials > /dev/null
             sudo chmod 600 ~/.git-credentials
-            echo "Entered" | sudo tee enter.txt > /dev/null
             sudo git pull origin main
-            echo "Pulled" | sudo tee -a enter.txt > /dev/null
             sudo npm install
             sudo npm run build
             sudo systemctl restart apache2
