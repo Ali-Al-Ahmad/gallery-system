@@ -1,0 +1,26 @@
+name: AWS Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: deploy to server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /var/www/html/gallery-system/Frontend
+            sudo git pull origin main
+            sudo npm install
+            sudo npm run build
+            sudo systemctl restart apache2
