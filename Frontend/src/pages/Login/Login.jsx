@@ -54,7 +54,7 @@ const Login = () => {
           onChange={handleChange}
           required
         />
-        <button type='submit'>login</button>
+        <button type='submit'>BATATA</button>
         <p>
           Don't have an account? <Link to='/register'>Register</Link>
         </p>
